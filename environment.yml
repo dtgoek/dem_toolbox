@@ -1,0 +1,22 @@
+name: dem_toolbox
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.11
+  - rasterio
+  - rioxarray
+  - xarray
+  - geopandas
+  - shapely
+  - numpy
+  - dask
+  - pip
+  - pip:
+    - requests
+    - python-dotenv
+    - pyyaml
+    - loguru
+    - typer
+    - pytest
+    - ruff
