@@ -1,7 +1,7 @@
 # DEM Toolbox
 
 A lightweight Python toolbox for reproducible DEM acquisition from [OpenTopography](https://opentopography.org/).
-Given a bounding box and dataset, it validates, tiles, downloads, and archives elevation data.
+Given a bounding box and dataset, it validates, tiles, downloads, and archives elevation data with full provenance.
 
 ---
 
@@ -26,7 +26,7 @@ dem_toolbox/
 └── utils/
 ├── config.py ← YAML loading + config merger
 ├── io.py ← file management + metadata sidecars
-└── logger.py ← structured loggin
+└── logger.py ← structured logging
 
 
 ---
@@ -100,3 +100,17 @@ Each run produces a GeoTIFF tile and a JSON provenance sidecar in `data/raw/`:
 
 - Python ≥ 3.10
 - `rasterio`, `shapely`, `requests`, `pyyaml`, `python-dotenv`
+
+---
+
+## Data Sources
+
+Elevation data provided by [OpenTopography](https://opentopography.org).
+Copernicus DEM © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018.
+SRTM data courtesy of NASA/USGS — public domain.
+
+---
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
