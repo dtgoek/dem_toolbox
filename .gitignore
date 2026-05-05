@@ -1,0 +1,22 @@
+# Secrets — never commit
+.env
+
+# Data — never commit rasters
+data/raw/*
+data/temp/*
+data/processed/*
+output/**/*
+!data/**/.gitkeep
+!output/**/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# VS Code
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
