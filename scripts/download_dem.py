@@ -14,6 +14,8 @@ from dem_toolbox.utils.logger import get_logger
 from dem_toolbox.etl.validator import validate_all
 from dem_toolbox.etl.tiler import split_bbox
 from dem_toolbox.etl.downloader import download_tile
+from dem_toolbox.utils.io import move_to_raw, write_metadata
+
 
 logger = get_logger(__name__)
 
@@ -52,14 +54,13 @@ def main():
     tiles = split_bbox(bbox, dataset=dataset, job_name=job_name)
     logger.info(f"Tiles to download: {len(tiles)}")
 
-    # 4. Download each tile
-    downloaded = []
+    # 4. Download, move, write metadata
+    raw_dir = Path(cfg["paths"]["raw_dir"])
     for tile in tiles:
-        path = download_tile(tile, api_key=key, output_dir=out_dir)
-        downloaded.append(path)
-        logger.info(f"  ✓ {path.name}  ({path.stat().st_size / 1024:.1f} KB)")
-
-    logger.info(f"Pipeline complete — {len(downloaded)} tile(s) in {out_dir}")
+        temp_path = download_tile(tile, api_key=key, output_dir=out_dir)
+        final_path = move_to_raw(temp_path, raw_dir)
+        write_metadata(final_path, tile, cfg)
+        logger.info(f"  ✓ {final_path.name}  ({final_path.stat().st_size / 1024:.1f} KB)")
 
 
 if __name__ == "__main__":

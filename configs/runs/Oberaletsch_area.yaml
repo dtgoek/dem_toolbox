@@ -1,0 +1,11 @@
+# Run-specific config — only overrides what differs from default_config.yaml
+aoi:
+  job_name: Oberaletsch_area
+  bbox:
+    west: 7.8
+    south: 46.30
+    east: 8.2
+    north: 46.50
+
+download:
+  dataset: GLO30
