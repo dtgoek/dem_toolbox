@@ -1,0 +1,17 @@
+input:
+  dem_path: null
+  target_crs: "EPSG:32632"
+  reproject: true
+
+sun:
+  mode: "timeseries"       # "single" or "timeseries"
+  lat: null
+  lon: null
+  date: null
+  interval_minutes: 60
+  azimuth: null            # only for mode: single
+  elevation: null          # only for mode: single
+
+output:
+  save_individual: true
+  save_summary: true

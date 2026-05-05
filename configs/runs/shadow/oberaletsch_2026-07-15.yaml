@@ -1,0 +1,14 @@
+# configs/runs/shadow/oberaletsch_2026-07-15.yaml
+input:
+  dem_path: "data/temp/GLO30_Oberaletsch_area_UTM32N.tif"
+
+sun:
+  mode: "timeseries"
+  lat: 46.40
+  lon: 8.00
+  date: "2026-07-15"
+  interval_minutes: 60
+
+output:
+  save_individual: true
+  save_summary: true
