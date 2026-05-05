@@ -5,29 +5,29 @@ Given a bounding box and dataset, it validates, tiles, downloads, and archives e
 
 ---
 
-## Architecture
+```text
 dem_toolbox/
 ├── configs/
-│ ├── default_config.yaml ← shared defaults
-│ └── runs/ ← one YAML per download run
-│ └── alps_2026.yaml
+│   ├── default_config.yaml        ← shared defaults
+│   └── runs/
+│       └── alps_2026.yaml         ← one YAML per download run
 ├── data/
-│ ├── raw/ ← downloaded tiles + JSON sidecars
-│ ├── temp/ ← intermediate files
-│ └── processed/ ← merged, reprojected, clipped DEMs
+│   ├── raw/                       ← downloaded tiles + JSON sidecars
+│   ├── temp/                      ← intermediate files
+│   └── processed/                 ← merged, reprojected, clipped DEMs
 ├── scripts/
-│ └── download_dem.py ← pipeline entry point
+│   └── download_dem.py            ← pipeline entry point
 └── src/dem_toolbox/
-├── etl/
-│ ├── validator.py ← bbox + dataset checks
-│ ├── tiler.py ← splits large AOIs into tiles
-│ ├── downloader.py ← OpenTopography API requests
-│ └── processor.py ← merge, reproject, clip
-└── utils/
-├── config.py ← YAML loading + config merger
-├── io.py ← file management + metadata sidecars
-└── logger.py ← structured logging
-
+    ├── etl/
+    │   ├── validator.py           ← bbox + dataset checks
+    │   ├── tiler.py               ← splits large AOIs into tiles
+    │   ├── downloader.py          ← OpenTopography API requests
+    │   └── processor.py           ← merge, reproject, clip
+    └── utils/
+        ├── config.py              ← YAML loading + config merger
+        ├── io.py                  ← file management + metadata sidecars
+        └── logger.py              ← structured logging
+```
 
 ---
 
