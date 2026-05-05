@@ -1,0 +1,25 @@
+# OpenTopography DEM Downloader - Default Config
+
+download:
+  dataset: GLO30                  # GLO30 or SRTM3
+  tile_safety_factor: 0.7         # 70% of OT max area limit per tile
+  output_crs: null                # null = keep source CRS
+  output_format: GTiff
+
+aoi:
+  job_name: Oberaletsch                # used in output filename
+  bbox:                           # single AOI mode [west, south, east, north]
+    west: 7.9
+    south: 46.4
+    east: 8.02
+    north: 46.47
+  geojson_path: null              # batch mode: path to GeoJSON FeatureCollection
+
+paths:
+  raw_dir: data/raw
+  temp_dir: data/temp
+  processed_dir: data/processed
+  output_dir: output
+
+logging:
+  level: INFO                     # DEBUG, INFO, WARNING, ERROR
