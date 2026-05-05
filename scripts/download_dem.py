@@ -1,0 +1,66 @@
+#!/usr/bin/env python3
+"""
+download_dem.py — Entry point for the DEM download pipeline.
+
+Usage:
+    python scripts/download_dem.py --config configs/runs/alps_2026.yaml
+"""
+
+import argparse
+from pathlib import Path
+
+from dem_toolbox.utils.config import merge_configs, load_api_key
+from dem_toolbox.utils.logger import get_logger
+from dem_toolbox.etl.validator import validate_all
+from dem_toolbox.etl.tiler import split_bbox
+from dem_toolbox.etl.downloader import download_tile
+
+logger = get_logger(__name__)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Download DEM tiles from OpenTopography."
+    )
+    parser.add_argument(
+        "--config",
+        type=Path,
+        required=True,
+        help="Path to run-specific YAML config (e.g. configs/runs/alps_2026.yaml)",
+    )
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    logger.info(f"Starting DEM download pipeline | config: {args.config}")
+
+    # 1. Load config
+    cfg = merge_configs(args.config)
+    key = load_api_key()
+
+    # 2. Validate
+    validate_all(cfg, key)
+
+    # 3. Tile bbox
+    bbox     = cfg["aoi"]["bbox"]
+    dataset  = cfg["download"]["dataset"]
+    job_name = cfg["aoi"]["job_name"]
+    out_dir  = Path(cfg["paths"]["temp_dir"])
+
+    tiles = split_bbox(bbox, dataset=dataset, job_name=job_name)
+    logger.info(f"Tiles to download: {len(tiles)}")
+
+    # 4. Download each tile
+    downloaded = []
+    for tile in tiles:
+        path = download_tile(tile, api_key=key, output_dir=out_dir)
+        downloaded.append(path)
+        logger.info(f"  ✓ {path.name}  ({path.stat().st_size / 1024:.1f} KB)")
+
+    logger.info(f"Pipeline complete — {len(downloaded)} tile(s) in {out_dir}")
+
+
+if __name__ == "__main__":
+    main()
