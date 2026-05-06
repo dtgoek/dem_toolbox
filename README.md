@@ -94,11 +94,24 @@ Each run produces a GeoTIFF tile and a JSON provenance sidecar in `data/raw/`:
 }
 ```
 
-### Arolla example
+
+## DEM cast shadow examples
+
+Figures show terrain hillshade with cast-shadow overlays for two glacier areas: Arolla at 06h00 and Oberaletsch at 16h00. The dark relief shading emphasizes ridges and slopes, while the blue overlay marks terrain cells in cast shadow under the chosen sun position.
+
+### Cast-shadow algorithm
+The cast-shadow algorithm identifies terrain cells that are not directly illuminated by the Sun because their line of sight to the solar disk is blocked by the topography. It is a geometrical visibility problem on a digital elevation model (DEM), solved for a given date, time, and location using the solar azimuth and elevation.
+
+For each target cell, the algorithm traces a ray from the cell toward the Sun in the horizontal direction defined by the solar azimuth. Along that ray, the terrain elevation is sampled at successive distances. The cell is classified as shadowed if any intervening terrain point lies above the elevation angle of the line from the target cell to the Sun.
+
+Equivalently, the algorithm compares:
+- the terrain horizon angle in the sun direction, and
+- the solar elevation angle.
+
+If the terrain horizon angle exceeds the solar elevation, the cell is in cast shadow.
+
 
 ![Arolla hillshade and shadow](output/figures/arolla_06h00.png)
-
-### Oberaletsch example
 
 ![Oberaletsch hillshade and shadow](output/figures/oberal_18h00.png)
 
