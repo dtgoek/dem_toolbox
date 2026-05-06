@@ -100,7 +100,7 @@ Each run produces a GeoTIFF tile and a JSON provenance sidecar in `data/raw/`:
 
 ### Oberaletsch example
 
-![Oberaletsch hillshade and shadow](output/figures/oberaletsch_16h00.png)
+![Oberaletsch hillshade and shadow](output/figures/oberal_18h00.png)
 
 ---
 
