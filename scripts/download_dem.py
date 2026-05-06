@@ -59,6 +59,15 @@ def main():
     for tile in tiles:
         temp_path = download_tile(tile, api_key=key, output_dir=out_dir)
         final_path = move_to_raw(temp_path, raw_dir)
+        reproject_cfg = cfg.get("reproject")
+        if cfg.get("reproject"):
+            from dem_toolbox.processing.shadow import reproject_to_utm
+
+            reproject_to_utm(
+                dem_path=final_path,
+                output_path=Path(cfg["reproject"]["output_path"]),
+                target_crs=cfg["reproject"]["target_crs"],
+            )
         write_metadata(final_path, tile, cfg)
         logger.info(f"  ✓ {final_path.name}  ({final_path.stat().st_size / 1024:.1f} KB)")
 

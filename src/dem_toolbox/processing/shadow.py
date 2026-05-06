@@ -129,38 +129,45 @@ def unrotate_mask(shadow_rotated: np.ndarray, sun_azimuth: float,
 
 # ── Shadow Sweep (Numba) ──────────────────────────────────────────────────────
 @njit
-def _sweep_column(col: np.ndarray, resolution: float,
-                  sun_elev_rad: float) -> np.ndarray:
-    n        = len(col)
-    shadow   = np.zeros(n, dtype=np.uint8)
-    sun_tan  = math.tan(sun_elev_rad)   # compute once, not inside loop
-
-    # baseline: first valid elevation (sun-side edge of rotated DEM)
-    baseline = col[0]
-    for k in range(n):
-        if not np.isnan(col[k]):
-            baseline = col[k]
-            break
-
-    max_tan = -1e9   # max terrain horizon angle seen so far
-
+def _sweep_column(col: np.ndarray, resolution: float, sun_elev_rad: float) -> np.ndarray:
+    n = len(col)
+    shadow = np.zeros(n, dtype=np.uint8)
+    
+    stack_top = -1
+    stack_idx = np.full(n, -1, dtype=np.int64)
+    stack_elev = np.full(n, -np.inf)
+    
     for i in range(n):
-        if np.isnan(col[i]):
-            continue
-        dist_m = i * resolution
-        if dist_m == 0:
-            terrain_tan = -1e9
-        else:
-            terrain_tan = (col[i] - baseline) / dist_m
-
-        # Shadow if sun is below the max terrain horizon seen so far
-        if sun_tan < max_tan:
-            shadow[i] = 1
-
-        # Always update horizon — shadowed peaks still cast shadows further
-        if terrain_tan > max_tan:
-            max_tan = terrain_tan
-
+        if np.isnan(col[i]): continue
+            
+        # COMPUTE HORIZON (your code ✓)
+        max_h = -np.inf
+        k = stack_top
+        while k >= 0:
+            j = stack_idx[k]
+            dist = (i - j) * resolution
+            if dist > 0:
+                angle = np.arctan2(stack_elev[k] - col[i], dist)
+                max_h = max(max_h, angle)
+                k -= 1  # CRITICAL: pop ALL dominated pixels
+            else:
+                break
+        
+        shadow[i] = max_h > sun_elev_rad
+        
+        while stack_top >= 0:
+            j = stack_idx[stack_top]
+            dist = (i - j) * resolution
+            if dist > 0 and stack_elev[stack_top] <= col[i]:
+                stack_top -= 1  # Pop dominated
+            else:
+                break
+        
+        # Push current
+        stack_top += 1
+        stack_idx[stack_top] = i
+        stack_elev[stack_top] = col[i]
+    
     return shadow
 
 

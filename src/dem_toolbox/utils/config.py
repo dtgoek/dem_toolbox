@@ -6,7 +6,7 @@ from dem_toolbox.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
-DEFAULT_CONFIG_PATH = Path("configs/default_config.yaml")
+DEFAULT_CONFIG_PATH = Path("configs/defaults/download.yaml")
 
 
 def load_config(config_path: Path = DEFAULT_CONFIG_PATH) -> dict:

@@ -9,3 +9,7 @@ aoi:
 
 download:
   dataset: GLO30
+
+reproject:
+  target_crs: "EPSG:32632"
+  output_path: "data/temp/GLO30_Oberaletsch_area_UTM32N.tif"

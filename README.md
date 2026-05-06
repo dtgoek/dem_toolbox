@@ -94,6 +94,14 @@ Each run produces a GeoTIFF tile and a JSON provenance sidecar in `data/raw/`:
 }
 ```
 
+### Arolla example
+
+![Arolla hillshade and shadow](output/figures/arolla_06h00.png)
+
+### Oberaletsch example
+
+![Oberaletsch hillshade and shadow](output/figures/oberaletsch_16h00.png)
+
 ---
 
 ## Requirements

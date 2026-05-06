@@ -12,6 +12,8 @@ dependencies:
   - numpy
   - dask
   - pip
+  - numba
+  - tqdm
   - pip:
     - requests
     - python-dotenv

@@ -1,0 +1,13 @@
+input:
+  dem_path: "data/temp/GLO30_Arolla_area_UTM32N.tif"
+
+sun:
+  mode: "timeseries"
+  lat: 45.9576
+  lon: 7.4946
+  date: "2026-07-15"
+  interval_minutes: 60
+
+output:
+  save_individual: true
+  save_summary: true

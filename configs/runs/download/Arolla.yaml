@@ -1,0 +1,15 @@
+# Run-specific config — only overrides what differs from default_config.yaml
+aoi:
+  job_name: Arolla_area
+  bbox:
+    west:  7.334061
+    east:  7.557907
+    south: 45.893354
+    north: 46.021761
+
+download:
+  dataset: GLO30
+
+reproject:
+  target_crs: "EPSG:32632"
+  output_path: "data/temp/GLO30_Arolla_area_UTM32N.tif"
