@@ -35,7 +35,7 @@ dem_toolbox/
 
 **1. Install**
 ```bash
-git clone https://github.com/yourname/dem_toolbox.git
+git clone https://github.com/dtgoek/dem_toolbox.git
 cd dem_toolbox
 pip install -e .
 ```
